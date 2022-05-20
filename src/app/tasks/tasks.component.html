@@ -1,0 +1,40 @@
+<section>
+    <header>
+        Tasks: <strong>{{ dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+        <hr />
+    </header>
+    <div class="text-center task-paginator">
+        <div *ngIf="!this.tasksService.previousPage else showBtn"></div>
+        <ng-template #showBtn>
+            <i class="material-icons" (click)="move(-1)">chevron_left</i>
+        </ng-template>
+        <span>more tasks</span>
+        <div *ngIf="!this.tasksService.nextPage else showBtn1"></div>
+        <ng-template #showBtn1>
+            <i class="material-icons" (click)="move(1)">chevron_right</i>
+        </ng-template>
+    </div>
+    <main>
+        <ul *ngIf="tasks.length; else noTasks">
+            <li class="task" *ngFor="let task of tasks; let idx = index">
+                <span>
+                    <strong>{{idx + 1 + this.tasksService.pageNumber}}</strong>
+                        {{task.title}}
+                </span>
+                <button class="btn btn-primary" (click)="remove(task)">remove</button>
+            </li>
+
+        </ul>
+        <ng-template #noTasks>
+            <p class="text-center">No tasks</p>
+        </ng-template>
+    </main>
+    <footer>
+        <form action="" (ngSubmit)="submit()" [formGroup]="form">
+            <input type="text" formControlName="title">
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">
+        add
+      </button>
+        </form>
+    </footer>
+</section>
